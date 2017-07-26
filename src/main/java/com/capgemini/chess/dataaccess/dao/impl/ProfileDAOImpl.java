@@ -2,6 +2,7 @@ package com.capgemini.chess.dataaccess.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,17 @@ public class ProfileDAOImpl implements ProfileDAO {
 				.map(p -> ProfileMapper.map(p))
 				.filter(p -> p.getID().equals(iD)).findFirst()
 				.orElse(null);
+	}
+	
+	
+	@Override
+	public List<ProfileTO> findProfilesWithinLevelRange(int level, int assumedLevelRange) {
+		return profiles
+				.stream()
+				.map(p -> ProfileMapper.map(p))
+				.filter(p -> (p.getLevel() <= level + assumedLevelRange)
+						|| (p.getLevel() >= level - assumedLevelRange))
+				.collect(Collectors.toList());
 	}
 
 }

@@ -1,9 +1,7 @@
 package com.capgemini.chess.dataaccess.dao.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -56,17 +54,6 @@ public class UserDAOImpl implements UserDAO {
 				.filter(p -> p.getID().equals(iD))
 				.findFirst()
 				.orElse(null);
-	}
-	
-	@Override
-	public List<ProfileTO> findUsersWithinLevelRange(int level, int assumedLevelRange) {
-		return users
-				.values()
-				.stream()
-				.map(u -> ProfileMapper.map(u.getProfile()))
-				.filter(p -> (p.getLevel() <= level + assumedLevelRange)
-						|| (p.getLevel() >= level - assumedLevelRange))
-				.collect(Collectors.toList());
 	}
 	
 	private Long generateID() {

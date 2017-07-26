@@ -11,6 +11,7 @@ import com.capgemini.chess.exception.UserValidationException;
 import com.capgemini.chess.service.ChallengeValidationService;
 import com.capgemini.chess.service.FindOpponentsService;
 import com.capgemini.chess.service.UserValidationService;
+import com.capgemini.chess.service.access.ProfileDAO;
 import com.capgemini.chess.service.access.UserDAO;
 import com.capgemini.chess.service.to.ProfileTO;
 
@@ -19,7 +20,10 @@ import com.capgemini.chess.service.to.ProfileTO;
 public class FindOpponentsServiceImpl implements FindOpponentsService {
 
 	@Autowired
-	UserDAO userDao;
+	UserDAO userDAO;
+	
+	@Autowired
+	ProfileDAO profileDAO;
 
 	@Autowired
 	UserValidationService userValidationService;
@@ -34,7 +38,7 @@ public class FindOpponentsServiceImpl implements FindOpponentsService {
 		} catch(UserValidationException e) {
 			System.out.println(e.getMessage());
 		}
-		return userDao.findUsersWithinLevelRange(tO.getLevel(), assumedLevelRange).stream()
+		return profileDAO.findProfilesWithinLevelRange(tO.getLevel(), assumedLevelRange).stream()
 				.filter(p -> (p.getID() != tO.getID()
 					&& challengeValidationService.isPotentialChallengeUnique(tO.getID(), p.getID())))
 				.limit(5)
