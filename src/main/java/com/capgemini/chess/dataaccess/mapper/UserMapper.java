@@ -1,23 +1,23 @@
 package com.capgemini.chess.dataaccess.mapper;
 
 import com.capgemini.chess.dataaccess.entities.UserEntity;
-import com.capgemini.chess.service.to.UserTo;
+import com.capgemini.chess.service.to.UserTO;
 
 public class UserMapper {
 
-	public static UserEntity map(UserTo to) {
+	public static UserEntity map(UserTO to) {
 		UserEntity user = new UserEntity();
 		user.setEmail(to.getEmail());
-		user.setId(to.getId());
+		user.setID(to.getID());
 		user.setPassword(to.getPassword());
 		user.setProfile(ProfileMapper.map(to.getProfile()));
 		return user;
 	}
 
-	public static UserTo map(UserEntity entity) {
-		UserTo to = new UserTo();
+	public static UserTO map(UserEntity entity) {
+		UserTO to = new UserTO();
 		to.setEmail(entity.getEmail());
-		to.setId(entity.getId());
+		to.setID(entity.getID());
 		to.setPassword(entity.getPassword());
 		to.setProfile(ProfileMapper.map(entity.getProfile()));
 		return to;

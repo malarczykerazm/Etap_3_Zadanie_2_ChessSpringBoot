@@ -2,17 +2,18 @@ package com.capgemini.chess.dataaccess.entities;
 
 public class ProfileEntity {
 
-	private Long id;
+	private Long iD;
 	private String name;
 	private String surname;
 	private String aboutMe;
+	private int level;
 
-	public Long getId() {
-		return id;
+	public Long getID() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setID(Long iD) {
+		this.iD = iD;
 	}
 
 	public String getName() {
@@ -38,4 +39,13 @@ public class ProfileEntity {
 	public void setAboutMe(String aboutMe) {
 		this.aboutMe = aboutMe;
 	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 }

@@ -1,17 +1,18 @@
 package com.capgemini.chess.service.to;
 
-public class ProfileTo {
-	private Long id;
+public class ProfileTO {
+	private Long iD;
 	private String name;
 	private String surname;
 	private String aboutMe;
+	private int level = 0;
 
-	public Long getId() {
-		return id;
+	public Long getID() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setID(Long id) {
+		this.iD = id;
 	}
 
 	public String getName() {
@@ -37,4 +38,13 @@ public class ProfileTo {
 	public void setAboutMe(String aboutMe) {
 		this.aboutMe = aboutMe;
 	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 }

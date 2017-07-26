@@ -1,7 +1,9 @@
 package com.capgemini.chess.service;
 
-import com.capgemini.chess.service.to.UserTo;
+import com.capgemini.chess.service.to.UserTO;
 
 public interface UserSaveService {
-	UserTo save(UserTo to);
+	
+	UserTO save(UserTO to);
+	
 }

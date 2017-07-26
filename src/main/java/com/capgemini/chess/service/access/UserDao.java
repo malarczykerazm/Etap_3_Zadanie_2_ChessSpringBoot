@@ -1,11 +1,18 @@
 package com.capgemini.chess.service.access;
 
-import com.capgemini.chess.service.to.UserTo;
+import java.util.List;
 
-public interface UserDao {
+import com.capgemini.chess.service.to.ProfileTO;
+import com.capgemini.chess.service.to.UserTO;
 
-	UserTo save(UserTo entity);
+public interface UserDAO {
 
-	UserTo findByEmail(String email);
+	UserTO save(UserTO entity);
+
+	UserTO findByEmail(String email);
+	
+	ProfileTO findByID(Long iD);
+	
+	List<ProfileTO> findUsersWithinLevelRange(int level, int assumedLevelRange);
 
 }

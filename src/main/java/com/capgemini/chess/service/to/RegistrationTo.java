@@ -1,6 +1,6 @@
 package com.capgemini.chess.service.to;
 
-public class RegistrationTo {
+public class RegistrationTO {
 
 	private String email;
 	private String password;

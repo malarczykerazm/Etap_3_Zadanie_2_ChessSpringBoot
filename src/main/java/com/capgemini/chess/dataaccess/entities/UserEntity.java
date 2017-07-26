@@ -2,11 +2,11 @@ package com.capgemini.chess.dataaccess.entities;
 
 public class UserEntity {
 
-	private Long id;
+	private Long iD;
 	private String email;
 	private String password;
 	private ProfileEntity profile;
-
+	
 	public ProfileEntity getProfile() {
 		return profile;
 	}
@@ -15,12 +15,12 @@ public class UserEntity {
 		this.profile = profile;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getID() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setID(Long iD) {
+		this.iD = iD;
 	}
 
 	public String getEmail() {
@@ -38,4 +38,5 @@ public class UserEntity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }

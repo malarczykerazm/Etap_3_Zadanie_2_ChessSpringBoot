@@ -1,22 +1,24 @@
 package com.capgemini.chess.service.impl;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.chess.service.UserCreationService;
-import com.capgemini.chess.service.to.ProfileTo;
-import com.capgemini.chess.service.to.RegistrationTo;
-import com.capgemini.chess.service.to.UserTo;
+import com.capgemini.chess.service.to.ProfileTO;
+import com.capgemini.chess.service.to.RegistrationTO;
+import com.capgemini.chess.service.to.UserTO;
 
 @Service
+@Scope("singleton")
 public class UserCreationServiceImpl implements UserCreationService {
 
 	@Override
-	public UserTo create(RegistrationTo registration) {
-		UserTo to = new UserTo();
-		to.setEmail(registration.getEmail());
-		to.setPassword(registration.getPassword());
+	public UserTO create(RegistrationTO registration) {
+		UserTO tO = new UserTO();
+		tO.setEmail(registration.getEmail());
+		tO.setPassword(registration.getPassword());
 		// TODO delegate to ProfileCreationService
-		to.setProfile(new ProfileTo());
-		return to;
+		tO.setProfile(new ProfileTO());
+		return tO;
 	}
 }

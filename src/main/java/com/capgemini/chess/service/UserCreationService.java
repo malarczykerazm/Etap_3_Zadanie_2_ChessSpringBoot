@@ -1,8 +1,10 @@
 package com.capgemini.chess.service;
 
-import com.capgemini.chess.service.to.RegistrationTo;
-import com.capgemini.chess.service.to.UserTo;
+import com.capgemini.chess.service.to.RegistrationTO;
+import com.capgemini.chess.service.to.UserTO;
 
 public interface UserCreationService {
-	UserTo create(RegistrationTo user);
+	
+	UserTO create(RegistrationTO user);
+	
 }

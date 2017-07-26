@@ -1,10 +1,12 @@
 package com.capgemini.chess.service;
 
 import com.capgemini.chess.exception.UserValidationException;
-import com.capgemini.chess.service.to.RegistrationTo;
+import com.capgemini.chess.service.to.RegistrationTO;
 
 public interface UserValidationService {
 
-	void validate(RegistrationTo to) throws UserValidationException;
+	void validate(RegistrationTO to) throws UserValidationException;
+	
+	void validateID(Long iD) throws UserValidationException;
 
 }

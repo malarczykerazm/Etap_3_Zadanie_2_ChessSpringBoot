@@ -1,17 +1,17 @@
 package com.capgemini.chess.service.to;
 
-public class UserTo {
-	private Long id;
+public class UserTO {
+	private Long iD;
 	private String email;
 	private String password;
-	private ProfileTo profile;
+	private ProfileTO profile;
 
-	public Long getId() {
-		return id;
+	public Long getID() {
+		return iD;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setID(Long id) {
+		this.iD = id;
 	}
 
 	public String getEmail() {
@@ -30,11 +30,11 @@ public class UserTo {
 		this.password = password;
 	}
 
-	public ProfileTo getProfile() {
+	public ProfileTO getProfile() {
 		return profile;
 	}
 
-	public void setProfile(ProfileTo profile) {
+	public void setProfile(ProfileTO profile) {
 		this.profile = profile;
 	}
 
