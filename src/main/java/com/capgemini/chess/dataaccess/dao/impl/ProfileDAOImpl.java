@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.dataaccess.entities.ProfileEntity;
 import com.capgemini.chess.dataaccess.mapper.ProfileMapper;
-import com.capgemini.chess.service.access.ProfileDAO;
 import com.capgemini.chess.service.to.ProfileTO;
 
 @Repository

@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
 import com.capgemini.chess.dataaccess.entities.ChallengeEntity;
 import com.capgemini.chess.dataaccess.mapper.ChallengeMapper;
-import com.capgemini.chess.service.access.ChallengeDAO;
 import com.capgemini.chess.service.to.ChallengeTO;
 
 @Repository

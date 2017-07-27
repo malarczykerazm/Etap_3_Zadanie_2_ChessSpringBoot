@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import com.capgemini.chess.dataaccess.dao.ProfileDAO;
+import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.dataaccess.entities.UserEntity;
 import com.capgemini.chess.dataaccess.mapper.ProfileMapper;
 import com.capgemini.chess.dataaccess.mapper.UserMapper;
-import com.capgemini.chess.service.access.ProfileDAO;
-import com.capgemini.chess.service.access.UserDAO;
 import com.capgemini.chess.service.to.ProfileTO;
 import com.capgemini.chess.service.to.UserTO;
 

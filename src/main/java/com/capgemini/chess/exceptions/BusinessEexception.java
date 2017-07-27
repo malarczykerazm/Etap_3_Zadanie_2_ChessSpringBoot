@@ -1,4 +1,4 @@
-package com.capgemini.chess.exception;
+package com.capgemini.chess.exceptions;
 
 public abstract class BusinessEexception extends Exception {
 
