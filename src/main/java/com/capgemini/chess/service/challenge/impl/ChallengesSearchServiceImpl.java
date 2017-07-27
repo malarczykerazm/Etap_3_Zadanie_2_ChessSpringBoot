@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
 import com.capgemini.chess.enums.ChallengeStatus;
-import com.capgemini.chess.service.challenge.ChallengesSearchService;
+import com.capgemini.chess.service.challenge.ChallengeSearchService;
 import com.capgemini.chess.service.to.ChallengeTO;
 
 @Service
 @Scope("singleton")
-public class ChallengesSearchServiceImpl implements ChallengesSearchService {
+public class ChallengesSearchServiceImpl implements ChallengeSearchService {
 	
 	@Autowired
 	ChallengeDAO challengeDAO;

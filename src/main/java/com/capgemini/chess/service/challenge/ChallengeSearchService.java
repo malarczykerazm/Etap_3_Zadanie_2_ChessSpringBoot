@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.capgemini.chess.service.to.ChallengeTO;
 
-public interface ChallengesSearchService {
+public interface ChallengeSearchService {
 
 	List<ChallengeTO> findAwaitingChallenges(Long searcherID);
 	

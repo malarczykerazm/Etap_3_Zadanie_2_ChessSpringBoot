@@ -7,16 +7,25 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
+import com.capgemini.chess.dataaccess.dao.ProfileDAO;
+import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.enums.ChallengeStatus;
+import com.capgemini.chess.exceptions.UserValidationException;
 import com.capgemini.chess.service.challenge.ChallengeCreationService;
+import com.capgemini.chess.service.challenge.ChallengeValidationService;
 import com.capgemini.chess.service.challenge.impl.ChallengeCreationServiceImpl;
+import com.capgemini.chess.service.challenge.impl.ChallengeFindingOpponentsServiceImpl;
+import com.capgemini.chess.service.challenge.impl.ChallengeValidationServiceImpl;
 import com.capgemini.chess.service.challenge.impl.ChallengesSearchServiceImpl;
 import com.capgemini.chess.service.to.ChallengeTO;
+import com.capgemini.chess.service.to.ProfileTO;
+import com.capgemini.chess.service.user.UserValidationService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChallengeServiecesTests {
@@ -25,18 +34,49 @@ public class ChallengeServiecesTests {
 	private Long recieverID;
 	private ChallengeTO tO;
 	private ChallengeCreationService challengeCreation;
+
 	private ChallengeTO challenge1;
 	private ChallengeTO challenge2;
 	private ChallengeTO challenge3;
 	private ChallengeTO challenge4;
 	private ChallengeTO challenge5;
-	private List<ChallengeTO> list;
+	private List<ChallengeTO> challengesList;
+	
+	private ProfileTO profile1;
+	private ProfileTO profile2;
+	private ProfileTO profile3;
+	private ProfileTO profile4;
+	private ProfileTO profile5;
+	private ProfileTO profile6;
+	private ProfileTO profile7;
+	private List<ProfileTO> profilesList;
 	
 	@Mock
 	private ChallengeDAO challengeDAO;
 	
+	@Mock
+	private UserValidationService userValidation;
+	
+	@Mock
+	private ProfileDAO profileDAO;
+	
+	@Mock
+	private UserDAO userDAO;
+	
+	@Mock
+	private ChallengeValidationService challengeValidation;
+		
+	@InjectMocks
+	private ChallengesSearchServiceImpl challengeSearchImpl;
+	
+	@InjectMocks
+	private ChallengeFindingOpponentsServiceImpl challengeFindingOpponentsImpl;
+	
+	@InjectMocks
+	private ChallengeValidationServiceImpl challengeValidationImpl;
+	
 	@Before
-	public void setup() {
+	public void challengeListSetup() {
 		challenge1 = new ChallengeTO();
 		challenge1.setChallengeID(1L);
 		challenge1.setSenderID(8L);
@@ -67,12 +107,53 @@ public class ChallengeServiecesTests {
 		challenge5.setRecieverID(20L);
 		challenge5.setChallengeStatus(ChallengeStatus.AWAITING);
 		
-		List<ChallengeTO> list = new ArrayList<>();
-		list.add(challenge1);
-		list.add(challenge2);
-		list.add(challenge3);
-		list.add(challenge4);
-		list.add(challenge5);
+		
+		challengesList = new ArrayList<>();
+		challengesList.add(challenge1);
+		challengesList.add(challenge2);
+		challengesList.add(challenge3);
+		challengesList.add(challenge4);
+		challengesList.add(challenge5);
+	}
+	
+	@Before
+	public void profilesListSetup() {
+		profile1 = new ProfileTO();
+		profile1.setID(1L);
+		profile1.setLevel(4);
+		
+		profile2 = new ProfileTO();
+		profile2.setID(2L);
+		profile2.setLevel(1);
+		
+		profile3 = new ProfileTO();
+		profile3.setID(3L);
+		profile3.setLevel(7);
+		
+		profile4 = new ProfileTO();
+		profile4.setID(4L);
+		profile4.setLevel(0);
+		
+		profile5 = new ProfileTO();
+		profile5.setID(5L);
+		profile5.setLevel(5);
+		
+		profile6 = new ProfileTO();
+		profile6.setID(6L);
+		profile6.setLevel(2);
+		
+		profile7 = new ProfileTO();
+		profile7.setID(7L);
+		profile7.setLevel(8);
+		
+		profilesList = new ArrayList<>();
+		profilesList.add(profile1);
+		profilesList.add(profile2);
+		profilesList.add(profile3);
+		profilesList.add(profile4);
+		profilesList.add(profile5);
+		profilesList.add(profile6);
+		profilesList.add(profile7);
 	}
 
 	@Test
@@ -96,18 +177,68 @@ public class ChallengeServiecesTests {
 	public void shouldReturnListOfAwaitingChallanges() {
 		
 		//given
-		Long searcherID = 20L;
-
-		//when
-		Mockito.when(challengeDAO.findByOneOfUsersID(searcherID)).thenReturn(list);
-		ChallengesSearchServiceImpl challengeSearch = new ChallengesSearchServiceImpl();
-		
 		List<ChallengeTO> expectedList = new ArrayList<>();
 		expectedList.add(challenge3);
 		expectedList.add(challenge5);
+		Long searcherID = 20L;
+		
+		//when
+		Mockito.when(challengeDAO.findByOneOfUsersID(searcherID)).thenReturn(challengesList);		
 		
 		//then
-		Assert.assertEquals(expectedList, challengeSearch.findAwaitingChallenges(searcherID));
+		Assert.assertEquals(expectedList, challengeSearchImpl.findAwaitingChallenges(searcherID));
 	}
 
+	@Test
+	public void shouldFindFiveOpponents() throws UserValidationException {
+		//given
+		int level = 5;
+		int levelRange = 4;
+		senderID = 20L;
+		List<ProfileTO> expectedList = new ArrayList<>();
+		expectedList.add(profile1);
+		expectedList.add(profile2);
+		expectedList.add(profile3);
+		expectedList.add(profile4);
+		expectedList.add(profile5);
+		
+		ProfileTO tO = new ProfileTO();
+		tO.setLevel(level);
+		tO.setID(senderID);
+		
+		//when
+		Mockito.when(profileDAO.findProfilesWithinLevelRange(level, levelRange)).thenReturn(profilesList);		
+		Mockito.doNothing().when(userValidation).validateID(tO.getID());
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile1.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile2.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile3.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile4.getID())).thenReturn(true);
+		Mockito.when(challengeValidation.isPotentialChallengeUnique(tO.getID(), profile5.getID())).thenReturn(true);
+				
+		//then
+		Assert.assertEquals(expectedList, challengeFindingOpponentsImpl.findPotentialOpponents(tO, levelRange));
+	}
+
+	@Test
+	public void shouldValidateChallenge() throws UserValidationException {
+		//given
+		senderID = 8L;
+		recieverID = 5L;
+		
+		ChallengeTO tO = new ChallengeTO();
+		tO.setSenderID(senderID);
+		tO.setRecieverID(recieverID);
+		
+		ChallengeTO notAwaitingChallenge = new ChallengeTO();
+		
+		//when
+		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
+		Mockito.when(userDAO.findByID(senderID)).thenReturn(new ProfileTO());
+		Mockito.when(userDAO.findByID(recieverID)).thenReturn(new ProfileTO());	
+		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(notAwaitingChallenge);	
+				
+		//then
+		//Assert.assertTrue(challengeValidationImpl.validateChallenge(tO) == void);
+	}
+	
 }
