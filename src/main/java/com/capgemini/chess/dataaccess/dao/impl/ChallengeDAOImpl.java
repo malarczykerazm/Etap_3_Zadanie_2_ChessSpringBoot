@@ -21,9 +21,9 @@ public class ChallengeDAOImpl implements ChallengeDAO {
 	
 	@Override
 	public ChallengeTO save(ChallengeTO tO) {
-		Long iD = generateID();
-		tO.setChallengeID(iD);
 		ChallengeEntity challenge = ChallengeMapper.map(tO);
+		Long iD = generateID();
+		challenge.setChallengeID(iD);
 		challenges.put(iD, challenge);
 		return ChallengeMapper.map(challenge);
 	}
@@ -41,12 +41,12 @@ public class ChallengeDAOImpl implements ChallengeDAO {
 	}
 	
 	@Override
-	public List<ChallengeTO> findByOneOfUsersID(Long iD) {
+	public List<ChallengeTO> findByOneOfUsersID(Long userID) {
 		return challenges
 				.values()
 				.stream()
 				.map(ch -> ChallengeMapper.map(ch))
-				.filter(ch -> ch.getSenderID().equals(iD) || ch.getRecieverID().equals(iD))
+				.filter(ch -> ch.getSenderID().equals(userID) || ch.getRecieverID().equals(userID))
 				.collect(Collectors.toList());
 	}
 	

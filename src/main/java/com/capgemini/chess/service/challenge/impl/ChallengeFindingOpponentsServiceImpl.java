@@ -11,13 +11,13 @@ import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.exceptions.UserValidationException;
 import com.capgemini.chess.service.challenge.ChallengeValidationService;
-import com.capgemini.chess.service.challenge.FindOpponentsService;
+import com.capgemini.chess.service.challenge.ChallengeFindingOpponentsService;
 import com.capgemini.chess.service.to.ProfileTO;
 import com.capgemini.chess.service.user.UserValidationService;
 
 @Service
 @Scope("singleton")
-public class FindOpponentsServiceImpl implements FindOpponentsService {
+public class ChallengeFindingOpponentsServiceImpl implements ChallengeFindingOpponentsService {
 
 	@Autowired
 	UserDAO userDAO;

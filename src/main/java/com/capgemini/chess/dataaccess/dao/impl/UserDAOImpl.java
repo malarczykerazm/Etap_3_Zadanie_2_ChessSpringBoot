@@ -26,11 +26,11 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public UserTO save(UserTO tO) {
-		Long iD = generateID();
-		tO.setID(iD);
 		UserEntity user = UserMapper.map(tO);
+		Long iD = generateID();
+		user.setID(iD);
 		users.put(iD, user);
-		profileDAO.save(tO.getProfile());
+		//profileDAO.save(tO.getProfile());
 		return UserMapper.map(user);
 	}
 

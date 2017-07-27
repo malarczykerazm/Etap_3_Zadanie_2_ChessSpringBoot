@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.chess.service.challenge.ChallengeInitiationService;
 import com.capgemini.chess.service.challenge.ChallengesSearchService;
-import com.capgemini.chess.service.challenge.FindOpponentsService;
+import com.capgemini.chess.service.challenge.ChallengeFindingOpponentsService;
 import com.capgemini.chess.service.facade.MultiPlayerGameSetupAndPointsFacade;
 import com.capgemini.chess.service.profile.ProfileCheckingService;
 import com.capgemini.chess.service.to.ChallengeTO;
@@ -19,7 +19,7 @@ import com.capgemini.chess.service.to.ProfileTO;
 public class MultiPlayerGameSetupAndPointsFacadeImpl implements MultiPlayerGameSetupAndPointsFacade {
 
 	@Autowired
-	private FindOpponentsService findOpponents;
+	private ChallengeFindingOpponentsService findOpponents;
 	
 	@Autowired
 	private ChallengeInitiationService challengeInitiation;

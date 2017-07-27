@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.capgemini.chess.service.to.ProfileTO;
 
-public interface FindOpponentsService {
+public interface ChallengeFindingOpponentsService {
 	
 	List<ProfileTO> findPotentialOpponents(ProfileTO tO, int range);
 }
