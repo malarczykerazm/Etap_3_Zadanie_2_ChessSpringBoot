@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,6 +18,7 @@ import com.capgemini.chess.dataaccess.dao.ChallengeDAO;
 import com.capgemini.chess.dataaccess.dao.ProfileDAO;
 import com.capgemini.chess.dataaccess.dao.UserDAO;
 import com.capgemini.chess.enums.ChallengeStatus;
+import com.capgemini.chess.exceptions.ChallengeValidationException;
 import com.capgemini.chess.exceptions.UserValidationException;
 import com.capgemini.chess.service.challenge.ChallengeCreationService;
 import com.capgemini.chess.service.challenge.ChallengeValidationService;
@@ -30,8 +33,8 @@ import com.capgemini.chess.service.user.UserValidationService;
 @RunWith(MockitoJUnitRunner.class)
 public class ChallengeServiecesTests {
 	
-	private Long senderID;
-	private Long recieverID;
+	private Long senderID = 8L;
+	private Long recieverID = 5L;
 	private ChallengeTO tO;
 	private ChallengeCreationService challengeCreation;
 
@@ -74,6 +77,9 @@ public class ChallengeServiecesTests {
 	
 	@InjectMocks
 	private ChallengeValidationServiceImpl challengeValidationImpl;
+
+	@Rule
+	public ExpectedException e = ExpectedException.none();
 	
 	@Before
 	public void challengeListSetup() {
@@ -218,27 +224,102 @@ public class ChallengeServiecesTests {
 		//then
 		Assert.assertEquals(expectedList, challengeFindingOpponentsImpl.findPotentialOpponents(tO, levelRange));
 	}
-
+	
 	@Test
-	public void shouldValidateChallenge() throws UserValidationException {
+	public void shouldValidateChallenge() throws ChallengeValidationException {
 		//given
-		senderID = 8L;
-		recieverID = 5L;
-		
 		ChallengeTO tO = new ChallengeTO();
 		tO.setSenderID(senderID);
 		tO.setRecieverID(recieverID);
 		
 		ChallengeTO notAwaitingChallenge = new ChallengeTO();
 		
-		//when
 		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
 		Mockito.when(userDAO.findByID(senderID)).thenReturn(new ProfileTO());
 		Mockito.when(userDAO.findByID(recieverID)).thenReturn(new ProfileTO());	
-		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(notAwaitingChallenge);	
+		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(notAwaitingChallenge);
+		
+		//when
+		challengeValidationImpl.validateChallenge(tO);
 				
 		//then
-		//Assert.assertTrue(challengeValidationImpl.validateChallenge(tO) == void);
+		//NO EXCEPTION
+	}
+	
+	@Test
+	public void shouldNotValidateChallengeDueToNoSenderID() throws ChallengeValidationException {
+		//given
+		ChallengeTO tO = new ChallengeTO();
+		tO.setSenderID(senderID);
+		tO.setRecieverID(recieverID);
+		
+		ChallengeTO notAwaitingChallenge = new ChallengeTO();
+		
+		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
+		Mockito.when(userDAO.findByID(senderID)).thenReturn(null);
+		Mockito.when(userDAO.findByID(recieverID)).thenReturn(new ProfileTO());	
+		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(notAwaitingChallenge);	
+
+		//expect
+		e.expect(ChallengeValidationException.class);
+		e.expectMessage("There is no player considered to be sender of the challenge!");
+
+		//when
+		challengeValidationImpl.validateChallenge(tO);
+				
+		
+		//then
+		//EXCEPTION
+	}
+	
+	@Test
+	public void shouldNotValidateChallengeDueToNoRecieverID() throws ChallengeValidationException {
+		//given
+		ChallengeTO tO = new ChallengeTO();
+		tO.setSenderID(senderID);
+		tO.setRecieverID(recieverID);
+		
+		ChallengeTO notAwaitingChallenge = new ChallengeTO();
+		
+		notAwaitingChallenge.setChallengeStatus(ChallengeStatus.ACCEPTED);
+		Mockito.when(userDAO.findByID(senderID)).thenReturn(new ProfileTO());
+		Mockito.when(userDAO.findByID(recieverID)).thenReturn(null);	
+		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(notAwaitingChallenge);	
+
+		//expect
+		e.expect(ChallengeValidationException.class);
+		e.expectMessage("reciever");
+		
+		//when
+		challengeValidationImpl.validateChallenge(tO);		
+		
+		//then
+		//EXCEPTION
+	}
+	
+	@Test
+	public void shouldNotValidateChallengeDueToUnuniqueChallenge() throws ChallengeValidationException {
+		//given
+		ChallengeTO tO = new ChallengeTO();
+		tO.setSenderID(senderID);
+		tO.setRecieverID(recieverID);
+		
+		ChallengeTO awaitingChallenge = new ChallengeTO();
+		
+		awaitingChallenge.setChallengeStatus(ChallengeStatus.AWAITING);
+		Mockito.when(userDAO.findByID(senderID)).thenReturn(new ProfileTO());
+		Mockito.when(userDAO.findByID(recieverID)).thenReturn(new ProfileTO());	
+		Mockito.when(challengeDAO.findByUserIDs(senderID, recieverID)).thenReturn(awaitingChallenge);	
+		
+		//expect
+		e.expect(ChallengeValidationException.class);
+		e.expectMessage("challenge is already awaiting");
+
+		//when
+		challengeValidationImpl.validateChallenge(tO);
+		
+		//then
+		//EXCEPTION
 	}
 	
 }
