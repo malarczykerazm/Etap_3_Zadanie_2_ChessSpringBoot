@@ -4,7 +4,7 @@ import com.capgemini.chess.dataaccess.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTO;
 
 public class ChallengeMapper {
-	
+
 	public static ChallengeEntity map(ChallengeTO tO) {
 		ChallengeEntity entity = new ChallengeEntity();
 		entity.setChallengeID(tO.getChallengeID());
@@ -22,5 +22,5 @@ public class ChallengeMapper {
 		tO.setChallengeStatus(entity.getChallengeStatus());
 		return tO;
 	}
-	
+
 }

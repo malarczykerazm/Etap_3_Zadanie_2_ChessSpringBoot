@@ -14,33 +14,33 @@ import com.capgemini.chess.service.to.ChallengeTO;
 @Service
 @Scope("singleton")
 public class ChallengeValidationServiceImpl implements ChallengeValidationService {
-	
+
 	@Autowired
 	private ChallengeDAO challengeDAO;
-	
+
 	@Autowired
 	private UserDAO userDAO;
 
 	@Override
 	public void validateChallenge(ChallengeTO tO) throws ChallengeValidationException {
-		if(null == userDAO.findByID(tO.getSenderID())) {
+		if (null == userDAO.findByID(tO.getSenderID())) {
 			throw new ChallengeValidationException("There is no player considered to be sender of the challenge!");
 		}
-		if(null == userDAO.findByID(tO.getRecieverID())) {
+		if (null == userDAO.findByID(tO.getRecieverID())) {
 			throw new ChallengeValidationException("There is no player considered to be reciever of the challenge!");
 		}
-		if(!(this.isPotentialChallengeUnique(tO.getSenderID(), tO.getRecieverID()))) {
+		if (!(this.isPotentialChallengeUnique(tO.getSenderID(), tO.getRecieverID()))) {
 			throw new ChallengeValidationException("Such a challenge is already awaiting!");
 		}
 	}
-	
+
 	@Override
 	public boolean isPotentialChallengeUnique(Long senderID, Long recieverID) {
 		ChallengeTO challenge = challengeDAO.findByUserIDs(senderID, recieverID);
-		if(null == challenge) {
+		if (null == challenge) {
 			return true;
 		}
-		if(!(challenge.getChallengeStatus().equals(ChallengeStatus.AWAITING))) {
+		if (!(challenge.getChallengeStatus().equals(ChallengeStatus.AWAITING))) {
 			return true;
 		}
 		return false;

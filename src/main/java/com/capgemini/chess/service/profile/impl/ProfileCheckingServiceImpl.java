@@ -16,20 +16,18 @@ public class ProfileCheckingServiceImpl implements ProfileCheckingService {
 
 	@Autowired
 	ProfileDAO profileDAO;
-	
+
 	@Autowired
 	ProfileValidationService profileValidation;
-	
+
 	@Override
 	public ProfileTO checkProfile(Long iD) {
 		try {
 			profileValidation.validateProfile(iD);
-		} catch(ProfileValidationException e) {
+		} catch (ProfileValidationException e) {
 			System.out.println(e.getMessage());
 		}
 		return profileDAO.findByID(iD);
 	}
-	
-	
 
 }

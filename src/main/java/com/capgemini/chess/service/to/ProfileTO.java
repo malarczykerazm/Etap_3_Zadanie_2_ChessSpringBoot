@@ -46,5 +46,5 @@ public class ProfileTO {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 }

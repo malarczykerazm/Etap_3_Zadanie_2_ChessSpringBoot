@@ -6,7 +6,7 @@ import com.capgemini.chess.service.to.RegistrationTO;
 public interface UserValidationService {
 
 	void validate(RegistrationTO to) throws UserValidationException;
-	
+
 	void validateID(Long iD) throws UserValidationException;
 
 }

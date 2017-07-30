@@ -11,7 +11,7 @@ import com.capgemini.chess.service.to.ChallengeTO;
 @Service
 @Scope("singleton")
 public class ChallengeSaveServiceImpl implements ChallengeSaveService {
-	
+
 	@Autowired
 	private ChallengeDAO challengeDAO;
 
@@ -20,6 +20,4 @@ public class ChallengeSaveServiceImpl implements ChallengeSaveService {
 		return challengeDAO.save(tO);
 	}
 
-	
-	
 }

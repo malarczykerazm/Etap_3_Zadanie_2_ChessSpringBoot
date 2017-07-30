@@ -18,9 +18,9 @@ import com.capgemini.chess.service.to.UserTO;
 @Repository
 @Scope("singleton")
 public class UserDAOImpl implements UserDAO {
-	
+
 	private final Map<Long, UserEntity> users = new HashMap<>();
-	
+
 	@Autowired
 	private ProfileDAO profileDAO;
 
@@ -29,33 +29,24 @@ public class UserDAOImpl implements UserDAO {
 		UserEntity user = UserMapper.map(tO);
 		Long iD = generateID();
 		user.setID(iD);
+		user.getProfile().setID(iD);
 		users.put(iD, user);
-		profileDAO.save(tO.getProfile());
+		profileDAO.save(UserMapper.map(user).getProfile());
 		return UserMapper.map(user);
 	}
 
 	@Override
 	public UserTO findByEmail(String email) {
-		UserEntity user = users
-				.values()
-				.stream()
-				.filter(u -> u.getEmail().equals(email))
-				.findFirst()
-				.orElse(null);
+		UserEntity user = users.values().stream().filter(u -> u.getEmail() == email).findFirst().orElse(null);
 		return UserMapper.map(user);
 	}
 
 	@Override
 	public ProfileTO findByID(Long iD) {
-		return users
-				.values()
-				.stream()
-				.map(u -> ProfileMapper.map(u.getProfile()))
-				.filter(p -> p.getID().equals(iD))
-				.findFirst()
-				.orElse(null);
+		return users.values().stream().map(u -> ProfileMapper.map(u.getProfile())).filter(p -> p.getID().equals(iD))
+				.findFirst().orElse(null);
 	}
-	
+
 	private Long generateID() {
 		return users.keySet().stream().max((i1, i2) -> i1.compareTo(i2)).orElse(0L) + 1;
 	}

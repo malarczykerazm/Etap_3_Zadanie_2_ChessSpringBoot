@@ -11,15 +11,15 @@ import com.capgemini.chess.service.profile.ProfileValidationService;
 @Service
 @Scope("singleton")
 public class ProfileValidationServiceImpl implements ProfileValidationService {
-	
+
 	@Autowired
 	ProfileDAO profileDAO;
 
 	@Override
 	public void validateProfile(Long iD) throws ProfileValidationException {
-		if(null == profileDAO.findByID(iD)) {
+		if (null == profileDAO.findByID(iD)) {
 			throw new ProfileValidationException("No such profile was found.");
 		}
 	}
-	
+
 }

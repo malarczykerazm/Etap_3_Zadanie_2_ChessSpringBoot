@@ -17,16 +17,16 @@ public class UserValidationServiceImpl implements UserValidationService {
 	private UserDAO userDao;
 
 	@Override
+	public void validateID(Long iD) throws UserValidationException {
+		if (null == userDao.findByID(iD)) {
+			throw new UserValidationException("User with given ID does not exist.");
+		}
+	}
+
+	@Override
 	public void validate(RegistrationTO tO) throws UserValidationException {
 		validateEmail(tO);
 		validatePassword(tO);
-	}
-	
-	@Override
-	public void validateID(Long iD) throws UserValidationException {
-		if (null != userDao.findByID(iD)) {
-			throw new UserValidationException("User with given ID does not exist.");
-		}
 	}
 
 	private void validateEmail(RegistrationTO tO) throws UserValidationException {

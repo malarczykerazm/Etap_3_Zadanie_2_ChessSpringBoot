@@ -10,7 +10,7 @@ import com.capgemini.chess.service.to.ChallengeTO;
 @Service
 @Scope("singleton")
 public class ChallengeCreationServiceImpl implements ChallengeCreationService {
-	
+
 	@Override
 	public ChallengeTO create(Long senderID, Long recieverID) {
 		ChallengeTO tO = new ChallengeTO();

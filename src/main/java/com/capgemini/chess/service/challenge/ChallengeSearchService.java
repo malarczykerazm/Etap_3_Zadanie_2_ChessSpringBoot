@@ -7,5 +7,5 @@ import com.capgemini.chess.service.to.ChallengeTO;
 public interface ChallengeSearchService {
 
 	List<ChallengeTO> findAwaitingChallenges(Long searcherID);
-	
+
 }

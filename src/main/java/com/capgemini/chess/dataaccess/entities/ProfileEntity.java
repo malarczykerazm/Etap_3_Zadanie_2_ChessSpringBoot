@@ -47,5 +47,5 @@ public class ProfileEntity {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 }

@@ -15,50 +15,50 @@ import com.capgemini.chess.service.profile.impl.ProfileValidationServiceImpl;
 import com.capgemini.chess.service.to.ProfileTO;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProfileServiecesTest {
-	
+public class ProfileServiecesTests {
+
 	private Long iD;
-	
+
 	@Mock
 	ProfileDAO profileDAO;
 
 	@InjectMocks
 	ProfileValidationServiceImpl profileValidation;
-	
+
 	@Rule
 	public ExpectedException e = ExpectedException.none();
-	
+
 	@Test
 	public void shouldValidateProfile() throws ProfileValidationException {
-		//given
+		// given
 		iD = 8L;
-				
+
 		Mockito.when(profileDAO.findByID(iD)).thenReturn(new ProfileTO());
-		
-		//when
+
+		// when
 		profileValidation.validateProfile(iD);
 
-		//then
+		// then
 		Mockito.verify(profileDAO).findByID(iD);
-		//NO EXCEPTION
+		// NO EXCEPTION
 	}
-	
+
 	@Test
 	public void shouldNotValidateProfileDueToNoIDInTheDatabase() throws ProfileValidationException {
-		//given
+		// given
 		iD = 8L;
-				
+
 		Mockito.when(profileDAO.findByID(iD)).thenReturn(null);
-		
-		//expect
+
+		// expect
 		e.expect(ProfileValidationException.class);
 		e.expectMessage("No such profile");
-		
-		//when
+
+		// when
 		profileValidation.validateProfile(iD);
 
-		//then
-		//EXCEPTION
+		// then
+		// EXCEPTION
 	}
 
 }

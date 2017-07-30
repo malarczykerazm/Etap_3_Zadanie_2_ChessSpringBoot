@@ -13,7 +13,7 @@ import com.capgemini.chess.service.to.ProfileTO;
 
 @Repository
 public class ProfileDAOImpl implements ProfileDAO {
-	
+
 	private final List<ProfileEntity> profiles = new ArrayList<>();
 
 	@Override
@@ -25,20 +25,14 @@ public class ProfileDAOImpl implements ProfileDAO {
 
 	@Override
 	public ProfileTO findByID(Long iD) {
-		return profiles.stream()
-				.map(p -> ProfileMapper.map(p))
-				.filter(p -> p.getID().equals(iD)).findFirst()
+		return profiles.stream().map(p -> ProfileMapper.map(p)).filter(p -> p.getID().equals(iD)).findFirst()
 				.orElse(null);
 	}
-	
-	
+
 	@Override
 	public List<ProfileTO> findProfilesWithinLevelRange(int level, int assumedLevelRange) {
-		return profiles
-				.stream()
-				.map(p -> ProfileMapper.map(p))
-				.filter(p -> (p.getLevel() <= level + assumedLevelRange)
-						|| (p.getLevel() >= level - assumedLevelRange))
+		return profiles.stream().map(p -> ProfileMapper.map(p)).filter(
+				p -> (p.getLevel() <= (level + assumedLevelRange)) && (p.getLevel() >= (level - assumedLevelRange)))
 				.collect(Collectors.toList());
 	}
 

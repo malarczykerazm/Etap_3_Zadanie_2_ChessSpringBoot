@@ -17,7 +17,6 @@ public class UserSaveServiceImpl implements UserSaveService {
 
 	@Override
 	public UserTO save(UserTO to) {
-		//TODO generateID();
 		return userDao.save(to);
 	}
 }

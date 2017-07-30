@@ -5,22 +5,22 @@ import com.capgemini.chess.service.to.UserTO;
 
 public class UserMapper {
 
-	public static UserEntity map(UserTO to) {
+	public static UserEntity map(UserTO tO) {
 		UserEntity user = new UserEntity();
-		user.setEmail(to.getEmail());
-		user.setID(to.getID());
-		user.setPassword(to.getPassword());
-		user.setProfile(ProfileMapper.map(to.getProfile()));
+		user.setID(tO.getID());
+		user.setEmail(tO.getEmail());
+		user.setPassword(tO.getPassword());
+		user.setProfile(ProfileMapper.map(tO.getProfile()));
 		return user;
 	}
 
 	public static UserTO map(UserEntity entity) {
-		UserTO to = new UserTO();
-		to.setEmail(entity.getEmail());
-		to.setID(entity.getID());
-		to.setPassword(entity.getPassword());
-		to.setProfile(ProfileMapper.map(entity.getProfile()));
-		return to;
+		UserTO tO = new UserTO();
+		tO.setID(entity.getID());
+		tO.setEmail(entity.getEmail());
+		tO.setPassword(entity.getPassword());
+		tO.setProfile(ProfileMapper.map(entity.getProfile()));
+		return tO;
 	}
 
 }

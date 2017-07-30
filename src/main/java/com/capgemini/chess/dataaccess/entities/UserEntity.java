@@ -6,7 +6,7 @@ public class UserEntity {
 	private String email;
 	private String password;
 	private ProfileEntity profile;
-	
+
 	public ProfileEntity getProfile() {
 		return profile;
 	}

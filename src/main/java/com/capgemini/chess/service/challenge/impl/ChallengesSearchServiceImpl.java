@@ -15,15 +15,14 @@ import com.capgemini.chess.service.to.ChallengeTO;
 @Service
 @Scope("singleton")
 public class ChallengesSearchServiceImpl implements ChallengeSearchService {
-	
+
 	@Autowired
 	ChallengeDAO challengeDAO;
-	
+
 	@Override
 	public List<ChallengeTO> findAwaitingChallenges(Long searcherID) {
 		return challengeDAO.findByOneOfUsersID(searcherID).stream()
-				.filter(ch -> ch.getChallengeStatus() == ChallengeStatus.AWAITING)
-				.collect(Collectors.toList());
+				.filter(ch -> ch.getChallengeStatus() == ChallengeStatus.AWAITING).collect(Collectors.toList());
 	}
 
 }
